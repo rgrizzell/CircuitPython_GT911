@@ -1,0 +1,5 @@
+# SPDX-FileCopyrightText: 2023 Robert Grizzell
+#
+# SPDX-License-Identifier: Unlicense
+
+sphinx-immaterial
