@@ -1,0 +1,7 @@
+# SPDX-FileCopyrightText: 2023 Robert Grizzell
+#
+# SPDX-License-Identifier: Unlicense
+
+Adafruit-Blinka
+adafruit-circuitpython-busdevice
+adafruit-circuitpython-register
