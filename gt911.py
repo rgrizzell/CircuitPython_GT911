@@ -12,15 +12,13 @@ CircuitPython Driver for Goodix GT911-based touch screens
 
 
 """
-
+import time
+import digitalio
 from micropython import const
 from adafruit_bus_device import i2c_device
-from adafruit_register.i2c_bit import RWBit
-from adafruit_register.i2c_struct import ROUnaryStruct
 
 try:
     from busio import I2C
-    from digitalio import DigitalInOut
 except ImportError:
     pass
 
@@ -45,44 +43,43 @@ _points = (_POINT_1, _POINT_2, _POINT_3, _POINT_4, _POINT_5)
 class GT911:
     """GT911 chip go brrr
 
-    TODO: Device initialization into Normal Mode.
     TODO: Context Manager functionality.
-    TODO: Initialize the Reset and Interrupt pins.
     TODO: Translate X,Y based on rotation.
     TODO: Can a COMMAND write be combined with a COMMAND_CHECK write?
     """
-
-    _device_id = ROUnaryStruct(_PRODUCT_ID, "B")
-
-    _reset = RWBit(_COMMAND, 0x02)
 
     # pylint: disable=too-many-arguments
     def __init__(
         self,
         i2c: I2C,
-        device_address: int = None,
-        rst_pin: DigitalInOut = None,
-        int_pin: DigitalInOut = None,
+        rst_pin: digitalio.DigitalInOut = None,
+        int_pin: digitalio.DigitalInOut = None,
+        int_high: bool = False,
         rotation: int = 0,
     ):
-        if device_address:
-            self.i2c_device = i2c_device.I2CDevice(i2c, device_address)
-        else:
-            try:
-                self.i2c_device = i2c_device.I2CDevice(i2c, _SLAVE_ADDRESS2)
-            except ValueError:
-                self.i2c_device = i2c_device.I2CDevice(i2c, _SLAVE_ADDRESS1)
-
-        if self._device_id != 0x00:
-            raise RuntimeError("Failed to find GT911")
-
         self.rst_pin = rst_pin
         self.int_pin = int_pin
+        self.int_high = int_high
         self._rotation = rotation
-
         self._last_touch = (None, None)
 
-        self._reset = True
+        # Reset and Interrupt pins are optional, but can be used to
+        # reset the device into a different I2C configuration.
+        if self.rst_pin:
+            self._reset_device()
+        elif self.int_pin:
+            # Listen for interrupts
+            self.int_pin.switch_to_input()
+
+        if self.rst_pin and self.int_pin and self.int_high:
+            self._i2c_addr = _SLAVE_ADDRESS2
+        else:
+            self._i2c_addr = _SLAVE_ADDRESS1
+
+        self.i2c_device = i2c_device.I2CDevice(i2c, self._i2c_addr)
+        if self._read_register(_PRODUCT_ID, 3) != "911":
+            raise RuntimeError("Failed to find GT911")
+        # Device initialized
 
     # pylint: enable=too-many-arguments
 
@@ -112,3 +109,38 @@ class GT911:
         # i2c: write 0x814E
         # bit 7: set to 0
         return self._last_touch
+
+    def _reset_device(self):
+        """If the reset pin is defined, the device can be reset. If the interrupt pin is also
+         defined, the device can be reset into a specific I2C address configuration.
+
+        This code is untested. Test hardware did not wire RESET to GPIO.
+        """
+        if not self.rst_pin:
+            raise RuntimeError("RESET pin must be configured to reset device.")
+
+        self.rst_pin.switch_to_output(True)  # Switch pin to output
+        self.rst_pin.value = False  # Stop the device
+        time.sleep(0.01)  # Wait >10ms
+
+        # Interrupt pin modifies I2C addressing (High: 0x14 | Low: 0x5D)
+        if self.int_pin:
+            # Set interrupt pin value in Open Drain mode.
+            self.int_pin.switch_to_output(
+                self.int_high, drive_mode=digitalio.DriveMode.OPEN_DRAIN
+            )
+            time.sleep(0.0001)  # Wait >10μs
+
+        self.rst_pin.value = True  # Start the device
+        if self.int_pin:
+            time.sleep(0.005)  # Wait >5ms
+            self.int_pin.switch_to_input()  # Listen for interrupts
+
+    def _read_register(self, register: int, register_width: int = 1):
+        reg = bytearray(2)
+        reg[0] = register >> 8
+        reg[1] = register & 0xFF
+        data = bytearray(register_width)
+        with self.i2c_device as i:
+            i.write_then_readinto(reg, data)
+        return data
