@@ -1,6 +1,7 @@
-# SPDX-FileCopyrightText: 2023 Robert Grizzell
+# SPDX-FileCopyrightText: 2017 Scott Shawcroft, written for Adafruit Industries
+# SPDX-FileCopyrightText: Copyright (c) 2023 Robert Grizzell
 #
-# SPDX-License-Identifier: MIT
+# SPDX-License-Identifier: Unlicense
 
 import time
 import board

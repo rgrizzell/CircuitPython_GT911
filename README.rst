@@ -7,17 +7,15 @@ Introduction
     :alt: Documentation Status
 
 
-.. image:: https://img.shields.io/pypi/v/circuitpython-gt911.svg
-    :alt: latest version on PyPI
-    :target: https://pypi.python.org/pypi/circuitpython-gt911
+.. image:: https://img.shields.io/discord/327254708534116352.svg
+    :target: https://adafru.it/discord
+    :alt: Discord
 
-.. image:: https://static.pepy.tech/personalized-badge/circuitpython-gt911?period=total&units=international_system&left_color=grey&right_color=blue&left_text=Pypi%20Downloads
-    :alt: Total PyPI downloads
-    :target: https://pepy.tech/project/circuitpython-gt911
 
-.. image:: https://github.com/rgrizzell/CircuitPython_gt911/workflows/Build%20CI/badge.svg
+.. image:: https://github.com/rgrizzell/CircuitPython_GT911/workflows/Build%20CI/badge.svg
     :target: https://github.com/rgrizzell/CircuitPython_GT911/actions
     :alt: Build Status
+
 
 .. image:: https://img.shields.io/badge/code%20style-black-000000.svg
     :target: https://github.com/psf/black
@@ -40,9 +38,12 @@ This is easily achieved by downloading
 or individual libraries can be installed using
 `circup <https://github.com/adafruit/circup>`_.
 
-
 Installing from PyPI
 =====================
+.. note:: This library is not available on PyPI yet. Install documentation is included
+   as a standard element. Stay tuned for PyPI availability!
+
+.. todo:: Remove the above note if PyPI version is/will be available at time of release.
 
 On supported GNU/Linux systems like the Raspberry Pi, you can install the driver locally `from
 PyPI <https://pypi.org/project/circuitpython-gt911/>`_.
@@ -93,12 +94,15 @@ Or the following command to update an existing version:
 Usage Example
 =============
 
-Take a look at the examples directory
+.. todo:: Add a quick, simple example. It and other examples should live in the
+examples folder and be included in docs/examples.rst.
 
 Documentation
 =============
 API documentation for this library can be found on `Read the Docs <https://circuitpython-gt911.readthedocs.io/>`_.
 
+For information on building library documentation, please check out
+`this guide <https://learn.adafruit.com/creating-and-sharing-a-circuitpython-library/sharing-our-docs-on-readthedocs#sphinx-5-1>`_.
 
 Contributing
 ============

@@ -1,6 +1,7 @@
-# SPDX-FileCopyrightText: 2023 Robert Grizzell
+# SPDX-FileCopyrightText: 2022 Alec Delaney, written for Adafruit Industries
+# SPDX-FileCopyrightText: Copyright (c) 2023 Robert Grizzell
 #
-# SPDX-License-Identifier: Unlicense
+# SPDX-License-Identifier: MIT
 
 [build-system]
 requires = [
@@ -11,7 +12,7 @@ requires = [
 
 [project]
 name = "circuitpython-gt911"
-description = "CircuitPython driver for GT911-based touchscreens"
+description = "CircuitPython Driver for Goodix GT911-based touch screens"
 version = "0.0.0+auto.0"
 readme = "README.rst"
 authors = [
@@ -19,13 +20,14 @@ authors = [
 ]
 urls = {Homepage = "https://github.com/rgrizzell/CircuitPython_GT911"}
 keywords = [
+    "adafruit",
+    "blinka",
+    "circuitpython",
+    "micropython",
+    "goodix",
     "gt911",
+    "touch",
     "touchscreen",
-    "display",
-    "iot",
-    "wifi",
-    "hardware",
-    "micropythoncircuitpython",
 ]
 license = {text = "MIT"}
 classifiers = [
@@ -39,7 +41,7 @@ classifiers = [
 dynamic = ["dependencies", "optional-dependencies"]
 
 [tool.setuptools]
-packages = ["gt911"]
+py-modules = ["gt911"]
 
 [tool.setuptools.dynamic]
 dependencies = {file = ["requirements.txt"]}

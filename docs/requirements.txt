@@ -1,5 +1,7 @@
-# SPDX-FileCopyrightText: 2023 Robert Grizzell
+# SPDX-FileCopyrightText: 2021 Kattni Rembor for Adafruit Industries
 #
 # SPDX-License-Identifier: Unlicense
 
-sphinx-immaterial
+sphinx
+sphinxcontrib-jquery
+sphinx-rtd-theme

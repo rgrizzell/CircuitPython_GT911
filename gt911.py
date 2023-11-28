@@ -1,4 +1,5 @@
-# SPDX-FileCopyrightText: 2023 Robert Grizzell
+# SPDX-FileCopyrightText: 2017 Scott Shawcroft, written for Adafruit Industries
+# SPDX-FileCopyrightText: Copyright (c) 2023 Robert Grizzell
 #
 # SPDX-License-Identifier: MIT
 """
@@ -10,7 +11,21 @@ CircuitPython Driver for Goodix GT911-based touch screens
 
 * Author(s): Robert Grizzell
 
+Implementation Notes
+--------------------
 
+**Hardware:**
+
+* `Product Page <https://www.goodix.com/en/product/touch/touch_screen_controller>`_
+* `GT911 Datasheet
+ <https://www.lcd-module.de/fileadmin/eng/pdf/zubehoer/GT911%20Programming%20Guide_20140804_Rev00.pdf>`_
+
+**Software and Dependencies:**
+
+* Adafruit CircuitPython firmware for the supported boards:
+  https://circuitpython.org/downloads
+* Adafruit's Bus Device library: https://github.com/adafruit/Adafruit_CircuitPython_BusDevice
+* Adafruit's Register library: https://github.com/adafruit/Adafruit_CircuitPython_Register
 """
 import time
 import digitalio
