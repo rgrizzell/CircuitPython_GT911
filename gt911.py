@@ -73,9 +73,6 @@ _GT_Y_THRESHOLD = const(0x8058)
 class GT911:
     """A driver for the GT911 capacitive touch sensor.
 
-    TODO: Context Manager functionality.
-    TODO: Translate X,Y based on rotation.
-
     :param i2c: The object representing the I2C interface used to communicate with the touchscreen.
     :type i2c: I2C
     :param rst_pin: The object representing the RESET pin.
