@@ -11,5 +11,7 @@ i2c = board.I2C()
 gt = gt911.GT911(i2c)
 
 while True:
-    print(gt.last_touch)
+    for i, touch in enumerate(gt.touches):
+        x, y, a = touch
+        print(f"[{i+1}]({x},{y}) size:{a}")
     time.sleep(1)
