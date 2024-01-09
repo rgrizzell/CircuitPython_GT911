@@ -64,9 +64,15 @@ Or the following command to update an existing version:
 Usage Example
 =============
 
-```python
-print("gt911")
-```
+.. code-block:: python
+
+    import board
+    import gt911
+
+    i2c = board.I2C()
+    gt = gt911.GT911(i2c)
+
+    print(gt.touches)
 
 Documentation
 =============
