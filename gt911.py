@@ -99,13 +99,12 @@ class GT911:
         if touch_status & 0x80:  # if bit7 == 1
             num_touch_points = touch_status & 0x0F  # get bit0
             for i in range(0, num_touch_points):
-                data = self._read(_GT_POINT_START + i * 8, 8)  # Read the touch point.
-                self._touch_data[i] = struct.unpack(
-                    "hhh", data[1:7]
-                )  # Unpack the coordinates and size.
-            self._write(
-                _GT_POINT_STATUS, [0]
-            )  # Reset the buffer for the next series of touches.
+                # Read the touch point, 8 bytes in total.
+                data = self._read(_GT_POINT_START + i * 8, 8)
+                # Unpack the touch data.
+                self._touch_data[i] = struct.unpack("hhh", data[1:7])
+        # Reset the buffer for the next series of touches.
+        self._write(_GT_POINT_STATUS, [0])
 
         return self._touch_data[0:num_touch_points]
 
