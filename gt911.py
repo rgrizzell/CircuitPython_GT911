@@ -18,7 +18,7 @@ Implementation Notes
 
 * `Product Page <https://www.goodix.com/en/product/touch/touch_screen_controller>`_
 
-**Software and Dependencies:**
+**Software sssand Dependencies:**
 
 * Adafruit CircuitPython firmware for the supported boards:
   https://circuitpython.org/downloads
@@ -53,6 +53,9 @@ class GT911:
 
     :param i2c: The object representing the I2C interface used to communicate with the touchscreen.
     :type i2c: I2C
+    :param i2c_address: The I2C address of the GT911 device. This is optional, but can be useful for
+    devices lacking RST or INT pin control.
+    :type i2c_address: int
     :param rst_pin: The object representing the RESET pin.
     :type rst_pin: DigitalInOut
     :param int_pin: The object representing the INTERRUPT/IRQ pin.
@@ -63,6 +66,7 @@ class GT911:
     def __init__(
         self,
         i2c: I2C,
+        i2c_address: int = None,
         rst_pin: digitalio.DigitalInOut = None,
         int_pin: digitalio.DigitalInOut = None,
         int_high: bool = False,
@@ -79,7 +83,9 @@ class GT911:
         elif self.int_pin:
             # Listen for interrupts
             self.int_pin.switch_to_input()
-        if self.rst_pin and self.int_pin and self.int_high:
+        if i2c_address:
+            self._i2c_addr = i2c_address
+        elif self.rst_pin and self.int_pin and self.int_high:
             self._i2c_addr = _GT_DEFAULT_I2C_ADDR
         else:
             self._i2c_addr = _GT_SECONDARY_I2C_ADDR
